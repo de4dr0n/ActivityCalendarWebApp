@@ -1,3 +1,6 @@
+using ActivityCalendarWebApp.API.Mappings;
+using ActivityCalendarWebApp.Application.Interfaces;
+using ActivityCalendarWebApp.Application.UseCases;
 using ActivityCalendarWebApp.Domain.Interfaces;
 using ActivityCalendarWebApp.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +12,11 @@ builder.Services.AddDbContext<ActivityCalendarDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddAutoMapper(typeof(ActivityMappingProfile));
 #region Interfaces
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IGetAllActivitiesUseCase, GetAllActivitiesUseCase>();
 
 #endregion
 builder.Services.AddControllers();
