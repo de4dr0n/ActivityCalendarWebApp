@@ -29,7 +29,7 @@ namespace ActivityCalendarWebApp.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("smalldatetime");
 
                     b.Property<string>("Description")
                         .HasMaxLength(150)
@@ -47,7 +47,7 @@ namespace ActivityCalendarWebApp.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Activity", (string)null);
+                    b.ToTable("Activities");
                 });
 #pragma warning restore 612, 618
         }
