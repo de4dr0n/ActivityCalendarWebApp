@@ -35,6 +35,16 @@ builder.Services.AddScoped<IActivityService, ActivityService>();
 
 #endregion Services
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000");
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowCredentials();
+    });
+});
 builder.Services.AddAutoMapper(typeof(ActivityMappingProfile));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -55,5 +65,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.Run();
