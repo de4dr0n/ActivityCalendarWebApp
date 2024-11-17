@@ -1,4 +1,3 @@
-using ActivityCalendarWebApp.Application.DTOs;
 using ActivityCalendarWebApp.Application.DTOs.Activity;
 using ActivityCalendarWebApp.Domain.Entities;
 using AutoMapper;
