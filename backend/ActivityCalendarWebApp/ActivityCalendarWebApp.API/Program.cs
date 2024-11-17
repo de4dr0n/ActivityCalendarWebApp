@@ -1,4 +1,5 @@
 using ActivityCalendarWebApp.API.Mappings;
+using ActivityCalendarWebApp.API.Middleware;
 using ActivityCalendarWebApp.Application.Interfaces;
 using ActivityCalendarWebApp.Application.Services;
 using ActivityCalendarWebApp.Domain.Interfaces;
@@ -40,6 +41,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseRouting();
 
