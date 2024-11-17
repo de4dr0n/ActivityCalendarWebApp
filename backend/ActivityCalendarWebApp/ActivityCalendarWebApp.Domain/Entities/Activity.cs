@@ -3,8 +3,9 @@
 public class Activity
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public required string Name { get; set; }
-    public required string Description { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime Date { get; set; }
+    public ActivityType Type { get; set; }
+    public string? Description { get; set; }
+    public decimal Progress { get; set; }
+    public ActivityStatus Status { get; set; } = ActivityStatus.Planned;
 }
