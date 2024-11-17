@@ -4,9 +4,10 @@ namespace ActivityCalendarWebApp.Domain.Interfaces;
 
 public interface IActivityRepository
 {
-    public Task<IEnumerable<Activity>> GetAllActivities();
-    public Task<Activity> GetActivityById(Guid id);
-    public Task CreateActivity(Activity activity);
-    public void UpdateActivity(Activity activity);
-    public void DeleteActivity(Activity activity);
+    Task<IEnumerable<Activity>> GetAllActivitiesAsync();
+    Task<Activity?> GetActivityByIdAsync(Guid id);
+    Task CreateActivityAsync(Activity activity);
+    void UpdateActivity(Activity activity);
+    void DeleteActivity(Activity activity);
+    Task<IEnumerable<Activity>> GetActivitiesByDateAsync(DateTime date);
 }

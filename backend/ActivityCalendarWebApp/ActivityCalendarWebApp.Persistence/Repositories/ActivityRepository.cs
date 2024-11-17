@@ -13,17 +13,17 @@ public class ActivityRepository : IActivityRepository
         _context = dbContext;
     }
     
-    public async Task<IEnumerable<Activity>> GetAllActivities()
+    public async Task<IEnumerable<Activity>> GetAllActivitiesAsync()
     {
         return await _context.Activities.AsNoTracking().ToListAsync();
     }
 
-    public async Task<Activity> GetActivityById(Guid id)
+    public async Task<Activity?> GetActivityByIdAsync(Guid id)
     {
         return await _context.Activities.FindAsync(id);
     }
 
-    public async Task CreateActivity(Activity activity)
+    public async Task CreateActivityAsync(Activity activity)
     {
         await _context.Activities.AddAsync(activity);
     }
@@ -36,5 +36,12 @@ public class ActivityRepository : IActivityRepository
     public void DeleteActivity(Activity activity)
     {
         _context.Activities.Remove(activity);
+    }
+    
+    public async Task<IEnumerable<Activity>> GetActivitiesByDateAsync(DateTime date)
+    {
+        return await _context.Activities
+            .Where(a => a.Date.Date == date.Date)
+            .ToListAsync();
     }
 }
