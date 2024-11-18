@@ -4,6 +4,6 @@ namespace ActivityCalendarWebApp.Application.DTOs.Activity;
 
 public record ActivityCreateDto(
     DateTime Date,
-    ActivityType Type,
+    string Type,
     string? Description,
     decimal Progress);

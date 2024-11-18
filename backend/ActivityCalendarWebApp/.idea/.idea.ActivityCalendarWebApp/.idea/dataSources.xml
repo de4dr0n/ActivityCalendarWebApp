@@ -6,7 +6,7 @@
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
       <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
-      <jdbc-url>Data Source=DESKTOP-TL4RE6G;Initial Catalog=ActivityCalendarDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True</jdbc-url>
+      <jdbc-url>Data Source=DESKTOP-5LSP8TE;Initial Catalog=ActivityCalendarDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

@@ -8,8 +8,12 @@ public class ActivityMappingProfile : Profile
 {
     public ActivityMappingProfile()
     {
-        CreateMap<Activity, ActivityCreateDto>().ReverseMap();
-        CreateMap<Activity, ActivityUpdateDto>().ReverseMap();
+        CreateMap<ActivityCreateDto, Activity>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type));
+        CreateMap<ActivityUpdateDto, Activity>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
         CreateMap<Activity, ActivityViewModel>()
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type.ToString()))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));

@@ -5,7 +5,7 @@ namespace ActivityCalendarWebApp.Application.DTOs.Activity;
 public record ActivityUpdateDto(
     Guid Id,
     DateTime Date,
-    ActivityType Type,
+    string Type,
     string? Description,
     decimal Progress,
-    ActivityStatus Status);
+    string Status);
