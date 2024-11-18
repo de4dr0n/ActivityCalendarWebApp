@@ -15,7 +15,10 @@ public class ActivityRepository : IActivityRepository
     
     public async Task<IEnumerable<Activity>> GetAllActivitiesAsync()
     {
-        return await _context.Activities.AsNoTracking().ToListAsync();
+        return await _context.Activities
+            .AsNoTracking()
+            .OrderBy(a => a.Date)
+            .ToListAsync();
     }
 
     public async Task<Activity?> GetActivityByIdAsync(Guid id)
@@ -42,6 +45,7 @@ public class ActivityRepository : IActivityRepository
     {
         return await _context.Activities
             .Where(a => a.Date.Date == date.Date)
+            .OrderBy(a => a.Date)
             .ToListAsync();
     }
 }
