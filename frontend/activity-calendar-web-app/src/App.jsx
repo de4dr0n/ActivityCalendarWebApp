@@ -25,6 +25,7 @@ const Dashboard = () => {
             setActivities(response.data);
         } catch (error) {
             console.error("Error fetching activities:", error);
+            alert("Error fetching activities. Try again later");
         }
     };
 
@@ -40,6 +41,7 @@ const Dashboard = () => {
             fetchActivities(selectedDate);
         } catch (error) {
             console.error("Error adding activity:", error);
+            alert("Error adding activity. Please try again later.");
         }
     };
 
@@ -49,13 +51,13 @@ const Dashboard = () => {
             fetchActivities(selectedDate);
         } catch (error) {
             console.error("Error deleting activity:", error);
+            alert("Error deleting activity. Please try again later.");
         }
     };
 
     const handleStatusChange = async (id, status) => {
         try {
             const activity = activities.find((a) => a.id === id);
-            if (!activity) throw new Error("Activity not found");
 
             const updatedStatus =
                 status === "Planned"
@@ -72,6 +74,7 @@ const Dashboard = () => {
             fetchActivities(selectedDate);
         } catch (error) {
             console.error("Error updating activity status:", error);
+            alert("Error updating activity status. Please try again later.");
         }
     };
 
