@@ -45,10 +45,12 @@ public class ActivityService : IActivityService
 
     public async Task UpdateActivityAsync(Guid id, ActivityUpdateDto model)
     {
+        if (id != model.Id) throw new ApplicationException();
         var activityToUpdate = await _unitOfWork.Activities.GetActivityByIdAsync(id);
         if (activityToUpdate == null) throw new KeyNotFoundException("Activity not found");
-        var activity = _mapper.Map<Activity>(model);
-        activityToUpdate = _mapper.Map(activity, activityToUpdate);
+        
+        _mapper.Map(model, activityToUpdate);
+        activityToUpdate.Id = model.Id;
         _unitOfWork.Activities.UpdateActivity(activityToUpdate);
         await _unitOfWork.SaveChangesAsync();
     }

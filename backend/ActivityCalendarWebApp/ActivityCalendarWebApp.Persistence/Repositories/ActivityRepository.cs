@@ -18,6 +18,7 @@ public class ActivityRepository : IActivityRepository
         return await _context.Activities
             .AsNoTracking()
             .OrderBy(a => a.Date)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -46,6 +47,7 @@ public class ActivityRepository : IActivityRepository
         return await _context.Activities
             .Where(a => a.Date.Date == date.Date)
             .OrderBy(a => a.Date)
+            .AsNoTracking()
             .ToListAsync();
     }
 }
