@@ -1,6 +1,6 @@
 # Activity Calendar Web Application
 
-Library Web Application is a modern web application developed using ASP.Net Core and EF Core, designed to manage calendar activities. The application provides users with a convenient interface for viewing and managing activities.
+Activity Calendar Web Application is a modern web application developed using ASP.Net Core and EF Core, designed to manage calendar activities. The application provides users with a convenient interface for viewing and managing activities.
 
 ## Features
 
