@@ -37,7 +37,7 @@ public class AuthorizationController : ControllerBase
         return Ok(user);
     }
 
-    [HttpGet("Logout")]
+    [HttpPost("Logout")]
     [Authorize]
     public async Task<IActionResult> Logout()
     {
