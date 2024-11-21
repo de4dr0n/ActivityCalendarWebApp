@@ -8,6 +8,7 @@ public class ActivityCalendarDbContext : DbContext
     public ActivityCalendarDbContext(DbContextOptions<ActivityCalendarDbContext> options) : base(options) {}
     
     public DbSet<Activity> Activities { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,6 +22,17 @@ public class ActivityCalendarDbContext : DbContext
             entity.Property(a => a.Description).HasMaxLength(150);
             entity.Property(a => a.Progress).IsRequired().HasPrecision(18, 4);
             entity.Property(a => a.Status).IsRequired();
+            
+            entity.HasOne(a => a.User)
+                .WithMany(u => u.Activities)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(u => u.Id);
+            entity.HasIndex(u => u.Username).IsUnique();
         });
     }
 }

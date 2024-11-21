@@ -42,6 +42,7 @@ namespace ActivityCalendarWebApp.API.Middleware
                     ApplicationException _ => new ExceptionResponse(HttpStatusCode.BadRequest, $"Application exception occurred: {exception.Message}"),
                     KeyNotFoundException _ => new ExceptionResponse(HttpStatusCode.NotFound, $"The request key not found: {exception.Message}"),
                     UnauthorizedAccessException _ => new ExceptionResponse(HttpStatusCode.Unauthorized, "Unauthorized."),
+                    AccessViolationException _ => new ExceptionResponse(HttpStatusCode.Forbidden, "Forbidden."),
                     _ => new ExceptionResponse(HttpStatusCode.InternalServerError, $"Internal server error: {exception.Message}")
                 };
             }

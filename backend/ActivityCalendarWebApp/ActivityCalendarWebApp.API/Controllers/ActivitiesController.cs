@@ -1,5 +1,6 @@
 using ActivityCalendarWebApp.Application.DTOs.Activity;
 using ActivityCalendarWebApp.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActivityCalendarWebApp.API.Controllers;
@@ -15,6 +16,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var activities = await _activityService.GetAllActivitiesAsync();
@@ -22,6 +24,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var activity = await _activityService.GetActivityByIdAsync(id);
@@ -29,6 +32,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpGet("{date}")]
+    [Authorize]
     public async Task<IActionResult> GetByDate(DateTime date)
     {
         var activities = await _activityService.GetActivitiesByDateAsync(date);
@@ -36,6 +40,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] ActivityCreateDto activity)
     {
         await _activityService.CreateActivityAsync(activity);
@@ -43,6 +48,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid id, [FromBody] ActivityUpdateDto activity)
     {
         await _activityService.UpdateActivityAsync(id, activity);
@@ -50,6 +56,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _activityService.DeleteActivityAsync(id);

@@ -42,10 +42,10 @@ public class ActivityRepository : IActivityRepository
         _context.Activities.Remove(activity);
     }
     
-    public async Task<IEnumerable<Activity>> GetActivitiesByDateAsync(DateTime date)
+    public async Task<IEnumerable<Activity>> GetActivitiesByDateAsync(DateTime date, Guid userId)
     {
         return await _context.Activities
-            .Where(a => a.Date.Date == date.Date)
+            .Where(a => a.Date.Date == date.Date && a.UserId == userId)
             .OrderBy(a => a.Date)
             .AsNoTracking()
             .ToListAsync();
