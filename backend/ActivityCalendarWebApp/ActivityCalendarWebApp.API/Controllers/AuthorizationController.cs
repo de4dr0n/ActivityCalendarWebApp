@@ -31,9 +31,9 @@ public class AuthorizationController : ControllerBase
 
     [HttpPost("RefreshToken")]
     [Authorize]
-    public async Task<IActionResult> RefreshToken(RefreshTokenViewModel model)
+    public async Task<IActionResult> RefreshToken()
     {
-        var user = await _authorizationService.RefreshAsync(model);
+        var user = await _authorizationService.RefreshAsync();
         return Ok(user);
     }
 

@@ -44,25 +44,34 @@ public class AuthorizationService : IAuthorizationService
     public async Task<LoginResponseViewModel> LoginAsync(LoginViewModel model)
     {
         var user = await _unitOfWork.Users.GetUserByUsernameAsync(model.Username);
-        if (user != null && BCrypt.Net.BCrypt.EnhancedVerify(model.Password, user.PasswordHash))
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, model.Username),
-                new Claim("UserId", user.Id.ToString())
-            };
+        if (user == null || !BCrypt.Net.BCrypt.EnhancedVerify(model.Password, user.PasswordHash))
+            throw new UnauthorizedAccessException("Invalid username or password");
 
-            var accessToken = _tokenService.GenerateAccessToken(claims);
-            var refreshToken = _tokenService.GenerateRefreshToken();
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
-            _unitOfWork.Users.UpdateUser(user);
-            await _unitOfWork.SaveChangesAsync();
-            var response = new LoginResponseViewModel(accessToken, refreshToken);
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("tasty-cookies", response.AccessToken, new CookieOptions { HttpOnly = true });
-            return response;
-        }
-        throw new UnauthorizedAccessException("Invalid username or password");
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, model.Username),
+            new Claim("UserId", user.Id.ToString())
+        };
+
+        var accessToken = _tokenService.GenerateAccessToken(claims);
+        var refreshToken = _tokenService.GenerateRefreshToken();
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
+        _unitOfWork.Users.UpdateUser(user);
+        await _unitOfWork.SaveChangesAsync();
+        var response = new LoginResponseViewModel(accessToken, refreshToken);
+
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = user.RefreshTokenExpiry,
+        };
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("accessToken", response.AccessToken, cookieOptions);
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", response.RefreshToken, cookieOptions);
+
+        return response;
     }
 
     public async Task LogoutAsync()
@@ -78,18 +87,28 @@ public class AuthorizationService : IAuthorizationService
             await _unitOfWork.SaveChangesAsync();
         }
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Delete("tasty-cookies");
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            Expires = DateTime.UtcNow.AddDays(-1)
+        };
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete("accessToken", cookieOptions);
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete("refreshToken", cookieOptions);
     }
 
-
-    public async Task<LoginResponseViewModel> RefreshAsync(RefreshTokenViewModel model)
+    public async Task<LoginResponseViewModel> RefreshAsync()
     {
-        var principal = GetTokenPrincipals(model.AccessToken);
+        var currentAccessToken = _httpContextAccessor.HttpContext.Request.Cookies["accessToken"];
+        var currentRefreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
+        
+        var principal = GetTokenPrincipals(currentAccessToken);
         if (principal?.Identity?.Name is null) throw new UnauthorizedAccessException("Invalid token");
 
         var identityUser = await _unitOfWork.Users.GetUserByUsernameAsync(principal.Identity.Name);
-        if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
+        if (identityUser is null || identityUser.RefreshToken != currentRefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
             throw new UnauthorizedAccessException("Invalid token");
+
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, identityUser.Username),
@@ -104,7 +123,17 @@ public class AuthorizationService : IAuthorizationService
         await _unitOfWork.SaveChangesAsync();
 
         var response = new LoginResponseViewModel(accessToken, refreshToken);
-        _httpContextAccessor.HttpContext.Response.Cookies.Append("tasty-cookies", response.AccessToken, new CookieOptions { HttpOnly = true });
+
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = identityUser.RefreshTokenExpiry,
+        };
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("accessToken", response.AccessToken, cookieOptions);
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", response.RefreshToken, cookieOptions);
+
         return response;
     }
     

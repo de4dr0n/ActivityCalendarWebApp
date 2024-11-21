@@ -7,5 +7,5 @@ public interface IAuthorizationService
     Task RegisterAsync(RegisterViewModel model);
     Task<LoginResponseViewModel> LoginAsync(LoginViewModel model);
     Task LogoutAsync();
-    Task<LoginResponseViewModel> RefreshAsync(RefreshTokenViewModel model);
+    Task<LoginResponseViewModel> RefreshAsync();
 }
