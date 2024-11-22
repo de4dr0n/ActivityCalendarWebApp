@@ -7,7 +7,12 @@ const api = axios.create({
 
 export const fetchActivities = async (date, setActivities) => {
     try {
-        const response = await api.get(`/activities/${date.toISOString()}`);
+        const utcDate = new Date(Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        ));
+        const response = await api.get(`/activities/${utcDate.toISOString()}`);
         setActivities(response.data);
     } catch (error) {
         console.error("Error fetching activities:", error);
@@ -40,7 +45,7 @@ export const deleteActivity = async (id) => {
 export const updateActivityStatus = async (id, updatedActivity, selectedDate, setActivities) => {
     try {
         await api.put(`/activities/${id}`, updatedActivity);
-        fetchActivities(selectedDate, setActivities);
+        await fetchActivities(selectedDate, setActivities);
     } catch (error) {
         console.error("Error updating activity status:", error);
         alert("Error updating activity status. Please try again later.");
