@@ -9,5 +9,5 @@ public interface IActivityRepository
     Task CreateActivityAsync(Activity activity);
     void UpdateActivity(Activity activity);
     void DeleteActivity(Activity activity);
-    Task<IEnumerable<Activity>> GetActivitiesByDateAsync(DateTime date, Guid userId);
+    Task<IEnumerable<Activity>> GetActivitiesByUserAsync(Guid userId);
 }

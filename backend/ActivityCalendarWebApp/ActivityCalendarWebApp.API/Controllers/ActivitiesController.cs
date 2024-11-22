@@ -15,8 +15,7 @@ public class ActivitiesController : ControllerBase
         _activityService = activityService;
     }
 
-    [HttpGet]
-    [Authorize]
+    [HttpGet("All")]
     public async Task<IActionResult> GetAll()
     {
         var activities = await _activityService.GetAllActivitiesAsync();
@@ -31,11 +30,11 @@ public class ActivitiesController : ControllerBase
         return Ok(activity);
     }
 
-    [HttpGet("{date}")]
+    [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetByDate(DateTime date)
+    public async Task<IActionResult> GetByUser()
     {
-        var activities = await _activityService.GetActivitiesByDateAsync(date);
+        var activities = await _activityService.GetActivitiesByUserAsync();
         return Ok(activities);
     }
 
@@ -44,7 +43,7 @@ public class ActivitiesController : ControllerBase
     public async Task<IActionResult> Create([FromBody] ActivityCreateDto activity)
     {
         await _activityService.CreateActivityAsync(activity);
-        return CreatedAtAction(nameof(GetByDate), new { date = activity.Date }, activity);
+        return CreatedAtAction(nameof(GetByUser), new { date = activity.Date }, activity);
     }
 
     [HttpPut("{id:guid}")]

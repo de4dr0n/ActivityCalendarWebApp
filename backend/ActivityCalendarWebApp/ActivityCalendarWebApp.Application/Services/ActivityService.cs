@@ -48,12 +48,12 @@ public class ActivityService : IActivityService
         return _mapper.Map<ActivityViewModel>(activity);
     }
     
-    public async Task<IEnumerable<ActivityViewModel>> GetActivitiesByDateAsync(DateTime date)
+    public async Task<IEnumerable<ActivityViewModel>> GetActivitiesByUserAsync()
     {
         var userId = GetCurrentUserId();
-        _logger.LogInformation($"Fetching activities for date {date.ToShortDateString()}...");
-        var datedActivities = await _unitOfWork.Activities.GetActivitiesByDateAsync(date, userId);
-        return _mapper.Map<IEnumerable<ActivityViewModel>>(datedActivities);
+        _logger.LogInformation($"Fetching activities for user {userId}...");
+        var userActivities = await _unitOfWork.Activities.GetActivitiesByUserAsync(userId);
+        return _mapper.Map<IEnumerable<ActivityViewModel>>(userActivities);
     }
 
     public async Task CreateActivityAsync(ActivityCreateDto model)
