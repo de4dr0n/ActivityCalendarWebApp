@@ -2,3 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-calendar {
+    width: 100%;
+    max-width: 400px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.custom-calendar .react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.custom-calendar .react-calendar__tile {
+    background-color: #fff;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.custom-calendar .react-calendar__tile--active {
+    background-color: #007BFF;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.custom-calendar .react-calendar__tile:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.custom-calendar .current-day {
+    background-color: #28a745;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+}

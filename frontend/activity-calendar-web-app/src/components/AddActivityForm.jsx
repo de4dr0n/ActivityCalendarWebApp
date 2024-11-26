@@ -9,7 +9,7 @@ const AddActivityForm = ({ newActivity, setNewActivity, handleAddActivity }) => 
                 <select
                     className="w-full p-2 border rounded"
                     value={newActivity.type}
-                    onChange={(e) => setNewActivity({ ...newActivity, type: e.target.value })}
+                    onChange={(e) => setNewActivity({...newActivity, type: e.target.value})}
                 >
                     <option value="Running">Running</option>
                     <option value="Cycling">Cycling</option>
@@ -24,7 +24,7 @@ const AddActivityForm = ({ newActivity, setNewActivity, handleAddActivity }) => 
                     type="text"
                     className="w-full p-2 border rounded"
                     value={newActivity.description}
-                    onChange={(e) => setNewActivity({ ...newActivity, description: e.target.value })}
+                    onChange={(e) => setNewActivity({...newActivity, description: e.target.value})}
                 />
             </div>
             <div className="mb-2">
@@ -33,7 +33,15 @@ const AddActivityForm = ({ newActivity, setNewActivity, handleAddActivity }) => 
                     type="number"
                     className="w-full p-2 border rounded"
                     value={newActivity.progress}
-                    onChange={(e) => setNewActivity({ ...newActivity, progress: e.target.value })}
+                    onChange={(e) => setNewActivity({...newActivity, progress: e.target.value})}
+                />
+            </div>
+            <div className="mb-2">
+                <label className="block font-semibold mb-1">Time</label>
+                <input
+                    type="time"
+                    className="w-full p-2 border rounded"
+                    onChange={(e) => setNewActivity({...newActivity, time: e.target.value})}
                 />
             </div>
             <button
