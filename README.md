@@ -12,7 +12,7 @@ Activity Calendar Web Application is a modern web application developed using AS
 
 **Client:** React
 
-**Server:** ASP.Net Web Api, EF Core, MS SQL Server
+**Server:** ASP.Net Web Api, EF Core, PostgreSQL
 
 ## Installation
 
@@ -20,16 +20,9 @@ Change *DefaultConnection* of your database in **appsettings.json**
 
 ```json
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
   "ConnectionStrings": {
     "DefaultConnection": "{your connection string}"
   },
-  "AllowedHosts": "*"
 }
 ```
 
