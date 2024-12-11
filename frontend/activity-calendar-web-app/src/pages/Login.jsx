@@ -5,16 +5,18 @@ import { AuthContext } from "../context/AuthContext";
 const Login = () => {
     const { login } = useContext(AuthContext);
     const [credentials, setCredentials] = useState({ username: "", password: "" });
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessage("");
+
         try {
             await login(credentials);
             navigate("/");
         } catch (error) {
-            console.error("Login failed:", error);
-            alert("Invalid credentials. Please try again.");
+            setErrorMessage(error.message);
         }
     };
 
@@ -22,6 +24,11 @@ const Login = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="w-96 bg-white p-6 rounded shadow-lg">
                 <h1 className="text-2xl font-bold mb-4">Login</h1>
+                {errorMessage && (
+                    <div className="mb-4 text-red-500">
+                        {errorMessage}
+                    </div>
+                )}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block font-semibold mb-1">Username</label>

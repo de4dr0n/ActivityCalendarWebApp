@@ -18,7 +18,7 @@ public class ActivityCalendarDbContext : DbContext
         {
             entity.HasKey(a => a.Id);
             entity.Property(a => a.Type).IsRequired();
-            entity.Property(a => a.Date).IsRequired().HasColumnType("smalldatetime");
+            entity.Property(a => a.Date).IsRequired();
             entity.Property(a => a.Description).HasMaxLength(150);
             entity.Property(a => a.Progress).IsRequired().HasPrecision(18, 4);
             entity.Property(a => a.Status).IsRequired();

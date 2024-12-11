@@ -56,7 +56,7 @@ public class AuthorizationService : IAuthorizationService
         var accessToken = _tokenService.GenerateAccessToken(claims);
         var refreshToken = _tokenService.GenerateRefreshToken();
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
+        user.RefreshTokenExpiry = DateTime.UtcNow.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
         _unitOfWork.Users.UpdateUser(user);
         await _unitOfWork.SaveChangesAsync();
         var response = new LoginResponseViewModel(accessToken, refreshToken);
@@ -106,7 +106,7 @@ public class AuthorizationService : IAuthorizationService
         if (principal?.Identity?.Name is null) throw new UnauthorizedAccessException("Invalid token");
 
         var identityUser = await _unitOfWork.Users.GetUserByUsernameAsync(principal.Identity.Name);
-        if (identityUser is null || identityUser.RefreshToken != currentRefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
+        if (identityUser is null || identityUser.RefreshToken != currentRefreshToken || identityUser.RefreshTokenExpiry < DateTime.UtcNow)
             throw new UnauthorizedAccessException("Invalid token");
 
         var claims = new List<Claim>
@@ -118,7 +118,7 @@ public class AuthorizationService : IAuthorizationService
         var accessToken = _tokenService.GenerateAccessToken(claims);
         var refreshToken = _tokenService.GenerateRefreshToken();
         identityUser.RefreshToken = refreshToken;
-        identityUser.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
+        identityUser.RefreshTokenExpiry = DateTime.UtcNow.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
         _unitOfWork.Users.UpdateUser(identityUser);
         await _unitOfWork.SaveChangesAsync();
 
