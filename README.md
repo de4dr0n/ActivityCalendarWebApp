@@ -25,11 +25,3 @@ Change *DefaultConnection* of your database in **appsettings.json**
   },
 }
 ```
-
-## Deployment
-
-To update the database run
-
-```bash
-dotnet ef database update -p .\ActivityCalendarWebApp.Persistence -s .\ActivityCalendarWebApp.API
-```
