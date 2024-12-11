@@ -118,6 +118,12 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ActivityCalendarDbContext>();
+    dbContext.Database.Migrate();
+}
+
 app.UseCors();
 
 app.UseRouting();

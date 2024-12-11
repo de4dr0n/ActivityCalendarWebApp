@@ -15,7 +15,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="ActivityCalendarDB@localhost" uuid="fabfbe58-e115-461a-a91b-30dd65d766be">
+    <data-source source="LOCAL" name="ActivityCalendarDB@localhost" uuid="e230f3fb-17cf-4144-9424-055e62bb498a">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

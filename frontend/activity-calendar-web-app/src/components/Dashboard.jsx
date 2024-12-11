@@ -25,7 +25,7 @@ const Dashboard = () => {
         dateTime.setHours(hours);
         dateTime.setMinutes(minutes);
 
-        const utcDateTime = new Date(dateTime.getTime() - dateTime.getTimezoneOffset() * 60000);
+        const utcDateTime = new Date(dateTime.getTime());
 
         try {
             await addActivity(newActivity, utcDateTime);
