@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  activitycalendarwebapp.api:
+    build:
+      context: "D:\\Programs\\Projects\\ActivityCalendarWebApp\\backend\\ActivityCalendarWebApp"
+      dockerfile: "ActivityCalendarWebApp.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ActivityCalendarWebApp.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "activitycalendarwebapp.api:dev"
+    ports: []
+    volumes:
+    - "D:\\Programs\\Projects\\ActivityCalendarWebApp\\backend\\ActivityCalendarWebApp\\\
+      ActivityCalendarWebApp.API:/app:rw"
+    - "D:\\Programs\\Projects\\ActivityCalendarWebApp\\backend\\ActivityCalendarWebApp:/src:rw"
+    - "C:\\Users\\eugen\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
